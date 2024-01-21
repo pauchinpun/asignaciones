@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrador de Hermanos</title>
+    <style>
+        table {
+            width: 80%;
+            margin: auto;
+            border-collapse: collapse;
+        }
+
+        th {
+            padding-bottom: 10px;
+            text-align: start;
+        }
+
+        tr {
+            transition: all 0.3s ease-in-out;
+        }
+
+        td {
+            padding: 10px 0;
+            border-top: 1px solid black;
+            border-bottom: 1px solid black;
+        }
+
+
+
+        tr:has(td):hover {
+            background-color: lightblue;
+        }
+
+        h1 {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Administrador de Hermanos</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>¿Hermano?</th>
+                <th>Lectura</th>
+                <th>Conversacion</th>
+                <th>Revisita</th>
+                <th>Curso</th>
+                <th>Discurso</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>Pau</td>
+                <td>Si</td>
+                <td>Si</td>
+                <td>Si</td>
+                <td>Si</td>
+                <td>Si</td>
+                <td>Si</td>
+            </tr>
+        </tbody>
+    </table>
+    <script src="../assets/js/administrador_hermanos.js"></script>
+</body>
+
+</html>
