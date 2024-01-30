@@ -69,8 +69,14 @@
         }
 
         tr:has(td):hover {
-            background-color: rgba(173, 216, 230, 0.135);
+            background-color: rgba(137, 174, 186, 0.296);
         }
+
+        tr.active,
+        tr.active:has(td):hover {
+            background-color: rgba(137, 174, 186, 0.43);
+        }
+
 
         h1 {
             margin-bottom: 20px;
@@ -149,7 +155,7 @@
                 </thead>
 
                 <tbody>
-                    <tr>
+                    <tr class="table-row">
                         <td><input type="checkbox" name="" id=""></td>
                         <td>Pau</td>
                         <td>Si</td>
