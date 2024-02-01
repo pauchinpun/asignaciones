@@ -38,15 +38,21 @@ const switch_ClickController = (target) => {
             if (table_row == table_row_active) return;
         }
 
-        // if (document.querySelector('.options-parent>.options.show')) {
-        //     document.querySelector('.options-parent>.options.show').classList.remove('show')
-        // }
 
-        // // si se clica al btn de opciones
-        // if (btnOptionsClicked) {
-        //     const optionParent = target.closest('.options-parent')
-        //     optionParent.querySelector('.options').classList.add('show');
-        // }
+
+
+
+        // si se clica al btn de opciones
+        if (btnOptionsClicked) {
+            const optionParent = target.closest('.options-parent')
+            optionParent.querySelector('.options').classList.add('show');
+        } else {
+            if (document.querySelector('.options-parent>.options.show')) {
+                document.querySelector('.options-parent>.options.show').classList.remove('show')
+            }
+
+        }
+
 
         // activar la fila clicada
         table_row.classList.add('active');
