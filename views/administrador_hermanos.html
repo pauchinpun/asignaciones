@@ -9,6 +9,7 @@
     <link href="../assets/fontawesome/css/fontawesome.min.css" rel="stylesheet">
     <link href="../assets/fontawesome/css/brands.min.css" rel="stylesheet">
     <link href="../assets/fontawesome/css/solid.min.css" rel="stylesheet">
+    <link href="../assets/bootstrap-5.3.2/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         * {
@@ -21,7 +22,7 @@
         }
 
         body {
-            background-color: var(--background);
+            /* background-color: var(--background); */
             padding: 0 50px;
         }
 
@@ -34,9 +35,8 @@
             width: 100%;
             border-collapse: collapse;
             background-color: white;
-            padding: 0 10px;
-            border: 1px solid var(--table-border);
             box-shadow: #00000069 -2.4px 2.4px 3.2px;
+            border-radius: 10px;
         }
 
 
@@ -58,6 +58,10 @@
 
         :is(th, td):is(:first-child, :last-child) {
             padding: 0 10px;
+        }
+
+        td:last-child {
+            text-align: center;
         }
 
         tbody>tr:nth-child(2)>td {
@@ -92,7 +96,9 @@
 
         .btn-options {
             background-color: transparent;
-            border: 0px solid transparent;
+            border: 1px solid #00000020;
+            padding: 5px 15px;
+            border-radius: 5px;
         }
 
 
@@ -130,6 +136,15 @@
         .options-parent>.options>button:hover {
             background-color: #00000020;
         }
+
+        /* TOOLBAR */
+        #toolbar {
+            margin: 20px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #toolbar>.buttons>button {}
     </style>
 </head>
 
@@ -137,6 +152,18 @@
     <main>
 
         <h1>Administrador de Hermanos</h1>
+
+        <nav id="toolbar">
+            <div class="search-bar mb-3">
+                <input type="search" class="form-control" id="" placeholder="Buscar Hermano">
+
+            </div>
+
+            <div class="buttons">
+                <button type="button" class="btn btn-light">Filtros</button>
+                <button type="button" class="btn btn-primary">Añadir Hermano</button>
+            </div>
+        </nav>
 
         <div id="table">
             <table>
@@ -156,30 +183,7 @@
 
                 <tbody>
                     <tr class="table-row">
-                        <td><input type="checkbox" name="" id=""></td>
-                        <td>Pau</td>
-                        <td>Si</td>
-                        <td>Si</td>
-                        <td>Si</td>
-                        <td>Si</td>
-                        <td>Si</td>
-                        <td>Si</td>
-                        <td>
-                            <div class="options-parent">
-                                <button type="button" class="btn-options">
-                                    <i class="fa-solid fa-ellipsis-vertical"></i>
-                                </button>
-
-                                <div class="options">
-                                    <button type="button"><i class="fa-solid fa-pen"></i> Editar</button>
-                                    <button type="button"><i class="fa-solid fa-trash"></i> Borrar</button>
-                                </div>
-                            </div>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox" name="" id=""></td>
+                        <td><input type="checkbox" class="checkbox-row"></td>
                         <td>Pau</td>
                         <td>Si</td>
                         <td>Si</td>
@@ -202,10 +206,35 @@
                         </td>
                     </tr>
 
+                    <tr class="table-row">
+                        <td><input type="checkbox" class="checkbox-row"></td>
+                        <td>Pau</td>
+                        <td>Si</td>
+                        <td>Si</td>
+                        <td>Si</td>
+                        <td>Si</td>
+                        <td>Si</td>
+                        <td>Si</td>
+                        <td>
+                            <div class="options-parent">
+                                <button type="button" class="btn-options">
+                                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                                </button>
+
+                                <div class="options">
+                                    <button type="button"><i class="fa-solid fa-pen"></i> Editar</button>
+                                    <button type="button"><i class="fa-solid fa-trash"></i> Borrar</button>
+                                </div>
+                            </div>
+
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
     </main>
+    <script src="../assets/bootstrap-5.3.2/js/bootstrap.min.js"></script>
+    <script src="../assets/bootstrap-5.3.2/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/administrador_hermanos.js"></script>
 </body>
 

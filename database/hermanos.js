@@ -28,9 +28,6 @@ async function getAllHermanos() {
                 reject(err);
             } else {
                 resolve(rows);
-
-
-
             }
         });
 

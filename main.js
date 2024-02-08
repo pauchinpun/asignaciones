@@ -61,7 +61,7 @@ ipcMain.on('goTo', (event, page) => {
 });
 
 ipcMain.handle('hermanosDB', async () => {
-    console.log('Seleccionando hermanos:')
-    setTimeout(() => { }, 1000)
-    return await getAllHermanos()
+    let hmnos = await getAllHermanos();
+    console.log('Seleccionando hermanos:', hmnos)
+    return hmnos;
 });

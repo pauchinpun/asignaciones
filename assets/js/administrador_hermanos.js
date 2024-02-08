@@ -1,56 +1,86 @@
-// (async () => {
-//     let hermanos = await electronAPI.hermanosDB();
-//     let htmlTableCode = hermanos.reduce((prev, arrVal) => {
-//         prev += `<tr id="hermano-${arrVal['Id']}">
-//                     <td>${arrVal['Nombre']}</td>
-//                     <td>${arrVal['Hermano'] ? 'Si' : 'No'}</td>
-//                     <td>${arrVal['Lectura']? 'Si' : 'No'}</td>
-//                     <td>${arrVal['Conversacion']? 'Si' : 'No'}</td>
-//                     <td>${arrVal['Revisita']? 'Si' : 'No'}</td>
-//                     <td>${arrVal['Curso']? 'Si' : 'No'}</td>
-//                     <td>${arrVal['Discurso']? 'Si' : 'No'}</td>
-//                 </tr>`
-//         return prev;
-//     }, '');
 
-//     document.querySelector('tbody').innerHTML = htmlTableCode
-// })();
 
-document.querySelector('table')
-    .addEventListener('click', e => switch_ClickController(e.target))
 
-const switch_ClickController = (target) => {
+document.addEventListener('DOMContentLoaded', () => {
+    obtenerHermanosBD();
+    document.addEventListener('click', e => clickController(e.target))
 
-    // si el click esta dentro de una table_row
-    if (target.closest('tr')) {
-        console.log("🚀 ~ target:", target)
-        let table_row = target.closest('tr');
-        let table_row_active = document.querySelector('table tr.active');
-        let btnOptionsClicked = target.classList.contains('btn-options');
+})
 
-        // si se selecciona el table header, out
-        if (table_row.querySelector('th')) return;
+// Controlador general de clicks
+const clickController = (target) => {
+    if (target.closest('table')) tableClickController(target)
+}
 
-        // si existe una table_row activa, desactivarla
-        if (table_row_active) {
-            table_row_active.classList.remove('active');
-            table_row_active.querySelector('input[type="checkbox"]').checked = false;
-            if (table_row == table_row_active) return;
-        }
+// Controlador de clicks de la tabla
+const tableClickController = (target) => {
+    const table_row = target.closest('tr');
+    const isButtonOptionsClicked = target.classList.contains('btn-options');
+    const checkboxClicked = target.classList.contains('checkbox-row')
+    const optionsShown = document.querySelectorAll('.options-parent>.options.show');
+    const optionParent = target.closest('.options-parent')
 
-        // if (document.querySelector('.options-parent>.options.show')) {
-        //     document.querySelector('.options-parent>.options.show').classList.remove('show')
-        // }
+    if (checkboxClicked) {
+        checkboxClicked.checked = true;
+        table_row.classList.add('active')
+    }
 
-        // // si se clica al btn de opciones
-        // if (btnOptionsClicked) {
-        //     const optionParent = target.closest('.options-parent')
-        //     optionParent.querySelector('.options').classList.add('show');
-        // }
 
-        // activar la fila clicada
-        table_row.classList.add('active');
-        table_row.querySelector('input[type="checkbox"]').checked = true
+
+    console.log("🚀 Table row:", table_row);
+    console.log("🚀 isButtonOptionsClicked:", isButtonOptionsClicked)
+
+
+    // si se clica al btn de opciones
+    if (isButtonOptionsClicked) {
+        if (optionsShown) optionsShown.forEach(elem => elem.classList.remove('show'))
+        optionParent.querySelector('.options').classList.add('show');
+
+    } else if (optionsShown) {
+        optionsShown.forEach(elem => elem.classList.remove('show'))
+    }
+
+
+    // if  {
+    //     document.querySelector('.options-parent>.options.show').classList.remove('show')
+    // }
+}
+
+// Obtener y mostrar todos los hermanos 
+const obtenerHermanosBD = async () => {
+    try {
+        const hermanos = await electronAPI.hermanosDB();
+        const htmlHermanos = hermanos.reduce((acc, hmno) => {
+            acc += `<tr class="table-row" id="${hmno.Id}">
+                    <td><input type="checkbox" class="checkbox-row"></td>
+                    <td>${hmno.Nombre}</td>
+                    <td>${hmno.Hermano}</td>
+                    <td>${hmno.Lectura}</td>
+                    <td>${hmno.Conversacion}</td>
+                    <td>${hmno.Revisita}</td>
+                    <td>${hmno.Curso}</td>
+                    <td>${hmno.Discurso}</td>
+                    <td>
+                        <div class="options-parent">
+                            <button type="button" class="btn-options">
+                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                            </button>
+
+                            <div class="options">
+                                <button type="button"><i class="fa-solid fa-pen"></i> Editar</button>
+                                <button type="button"><i class="fa-solid fa-trash"></i> Borrar</button>
+                            </div>
+                        </div>
+
+                    </td>
+                </tr>`;
+
+            return acc;
+        }, '');
+
+        document.querySelector('table > tbody').innerHTML = htmlHermanos;
+    } catch (error) {
+        // alert(error)
     }
 }
 
