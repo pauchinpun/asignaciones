@@ -4,7 +4,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     obtenerHermanosBD();
     document.addEventListener('click', e => clickController(e.target))
-
 })
 
 // Controlador general de clicks
@@ -58,7 +57,15 @@ const tableClickController = (target) => {
 }
 
 const checkIfShowDeleteButton = () => {
-
+    let activeTR = document.querySelector('table > tbody > tr.active');
+    let toolbarButtons = document.querySelector('#toolbar .buttons');
+    if (activeTR) {
+        toolbarButtons.querySelector('.btn-danger').classList.remove('d-none')
+        toolbarButtons.querySelector('.btn-primary').classList.add('d-none')
+    } else {
+        toolbarButtons.querySelector('.btn-danger').classList.add('d-none')
+        toolbarButtons.querySelector('.btn-primary').classList.remove('d-none')
+    }
 }
 
 // Obtener y mostrar todos los hermanos 
