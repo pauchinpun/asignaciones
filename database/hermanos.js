@@ -16,10 +16,6 @@ function initHermanosDatabase() {
             Curso boolean,
             Discurso boolean
         )`);
-
-
-
-
 }
 
 async function getAllHermanos() {

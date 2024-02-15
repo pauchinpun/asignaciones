@@ -17,19 +17,34 @@ const tableClickController = (target) => {
     const table_row = target.closest('tr');
     const isButtonOptionsClicked = target.classList.contains('btn-options');
     const checkboxClicked = target.classList.contains('checkbox-row')
+    const mainCheckboxClicked = target.classList.contains('main-checkbox')
     const optionsShown = document.querySelectorAll('.options-parent>.options.show');
     const optionParent = target.closest('.options-parent')
 
     if (checkboxClicked) {
-        checkboxClicked.checked = true;
-        table_row.classList.add('active')
+        if (!target.checked) {
+            table_row.classList.remove('active')
+        } else {
+            table_row.classList.add('active')
+        }
+        checkIfShowDeleteButton();
     }
 
-
-
-    console.log("🚀 Table row:", table_row);
-    console.log("🚀 isButtonOptionsClicked:", isButtonOptionsClicked)
-
+    if (mainCheckboxClicked) {
+        if (!target.checked) {
+            document.querySelectorAll('.checkbox-row')
+                .forEach(elem => {
+                    elem.checked = false
+                    elem.closest('.table-row').remove('active')
+                })
+        } else {
+            document.querySelectorAll('.checkbox-row')
+                .forEach(elem => {
+                    elem.checked = true
+                    elem.closest('.table-row').classList.add('active')
+                })
+        }
+    }
 
     // si se clica al btn de opciones
     if (isButtonOptionsClicked) {
@@ -40,10 +55,10 @@ const tableClickController = (target) => {
         optionsShown.forEach(elem => elem.classList.remove('show'))
     }
 
+}
 
-    // if  {
-    //     document.querySelector('.options-parent>.options.show').classList.remove('show')
-    // }
+const checkIfShowDeleteButton = () => {
+
 }
 
 // Obtener y mostrar todos los hermanos 
