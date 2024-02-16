@@ -65,3 +65,9 @@ ipcMain.handle('hermanosDB', async () => {
     console.log('Seleccionando hermanos:', hmnos)
     return hmnos;
 });
+
+
+ipcMain.handle('newHermano', async () => {
+    let hmnos = insertHermanoData();
+    return { 'state': true };
+});

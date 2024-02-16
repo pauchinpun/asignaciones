@@ -34,7 +34,7 @@ async function getAllHermanos() {
 
 // Function to insert data into the database
 function insertHermanoData(data) {
-    db.run('INSERT INTO hermano (Nombre, Hermano) VALUES (?, ?)', ['Pau', 'True'], (err) => {
+    db.run('INSERT INTO hermano (Nombre, Hermano) VALUES (?, ?)', ['Puri', 'True'], (err) => {
         if (err) return console.error(err.message);
 
         console.log(`A row has been inserted with rowID: ${this.lastID}`);

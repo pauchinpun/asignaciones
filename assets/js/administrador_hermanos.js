@@ -1,14 +1,71 @@
-
+let modalCreated = null;
 
 
 document.addEventListener('DOMContentLoaded', () => {
     obtenerHermanosBD();
     document.addEventListener('click', e => clickController(e.target))
+    formChecker()
+
 })
+
+const formChecker = () => {
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    const forms = document.querySelectorAll('.needs-validation')
+    console.log("🚀 ~ formChecker ~ forms:", forms)
+
+    // Loop over them and prevent submission
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', async (event) => {
+
+            event.preventDefault()
+            event.stopPropagation()
+
+            if (form.checkValidity()) {
+                if (form.id == 'add-hermano-form') {
+                    const inputValues = Array.from(form.querySelectorAll('input')).reduce((acc, input) => {
+                        const key = input.type === 'text' ? 'nombre' : input.id.split('-').pop();
+                        acc[key] = input.type === 'text' ? input.value : input.checked;
+                        return acc;
+                    }, {});
+
+                    try {
+                        let result = await electronAPI.newHermano(inputValues);
+                        if (result.state == true) {
+                            obtenerHermanosBD();
+                            let modal = document.querySelector('#header-table-modal')
+                            modalCreated.hide()
+                        }
+                    } catch (error) {
+                        alert(error)
+                    }
+
+                }
+
+            }
+
+
+
+
+
+            form.classList.add('was-validated')
+        }, false)
+    })
+};
 
 // Controlador general de clicks
 const clickController = (target) => {
     if (target.closest('table')) tableClickController(target)
+
+    if (target.id == 'add-hermano') {
+        let modal = document.querySelector('#header-table-modal')
+        console.log("🚀 ~ clickController ~ modalCreated:", modalCreated)
+        modalCreated = new bootstrap.Modal(modal, {})
+        console.log("🚀 ~ clickController ~ modalCreated:", modalCreated)
+        modalCreated.show()
+
+
+    }
 }
 
 // Controlador de clicks de la tabla
@@ -102,7 +159,7 @@ const obtenerHermanosBD = async () => {
 
         document.querySelector('table > tbody').innerHTML = htmlHermanos;
     } catch (error) {
-        // alert(error)
+        alert(error)
     }
 }
 

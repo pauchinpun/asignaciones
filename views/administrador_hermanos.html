@@ -33,26 +33,80 @@
 
             <div class="buttons">
                 <button type="button" class="btn btn-dark"><i class="fa-solid fa-filter pe-2"></i> Filtros</button>
-                <button type="button" class="btn btn-primary"><i class="fa-solid fa-plus pe-2"></i> Añadir
+                <button type="button" id="add-hermano" class="btn btn-primary"><i class="fa-solid fa-plus pe-2"></i>
+                    Añadir
                     Hermano</button>
-                <button type="button" class="btn btn-danger d-none"><i class="fa-solid fa-trash pe-2"></i>
+                <button type="button" id="delete-hermano" class="btn btn-danger d-none"><i
+                        class="fa-solid fa-trash pe-2"></i>
                     Eliminar</button>
             </div>
 
-            <div class="modal" tabindex="-1">
+            <div id="header-table-modal" class="modal fade" id="exampleModal" tabindex="-1"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Modal title</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <p>Modal body text goes here.</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
-                        </div>
+                        <form id="add-hermano-form" class="needs-validation" novalidate>
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5">Añadir hermano/a</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <input type="text" class="form-control" id="nombre-hermano"
+                                        placeholder="Nombre del hermano/a" autofocus required>
+                                </div>
+
+                                <div class="switchs">
+                                    <div class="form-check form-switch form-check-reverse">
+                                        <input class="form-check-input" type="checkbox" role="switch"
+                                            id="switch-hermano">
+                                        <label class="form-check-label text-start d-block" for="switch-hermano">¿Es un
+                                            hermano?</label>
+                                    </div>
+                                    <div class="form-check form-switch form-check-reverse">
+                                        <input class="form-check-input hermano" type="checkbox" role="switch"
+                                            id="switch-lectura">
+                                        <label class="form-check-label text-start d-block" for="switch-lectura">¿Hace
+                                            lectura?</label>
+                                    </div>
+                                    <div class="form-check form-switch form-check-reverse">
+                                        <input class="form-check-input" type="checkbox" role="switch"
+                                            id="switch-conversacion">
+                                        <label class="form-check-label text-start d-block"
+                                            for="switch-conversacion">¿Hace
+                                            conversaciones?</label>
+                                    </div>
+                                    <div class="form-check form-switch form-check-reverse">
+                                        <input class="form-check-input" type="checkbox" role="switch"
+                                            id="switch-revisita">
+                                        <label class="form-check-label text-start d-block" for="switch-revisita">¿Hace
+                                            revisitas?</label>
+                                    </div>
+                                    <div class="form-check form-switch form-check-reverse">
+                                        <input class="form-check-input" type="checkbox" role="switch" id="switch-curso">
+
+                                        <label class="form-check-label text-start d-block" for="switch-curso">¿Hace
+                                            cursos
+                                            biblicos?</label>
+                                    </div>
+                                    <div class="form-check form-switch form-check-reverse">
+                                        <input class="form-check-input hermano" type="checkbox" role="switch"
+                                            id="switch-discurso">
+                                        <label class="form-check-label text-start d-block" for="switch-discurso">¿Hace
+                                            discursos?</label>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="modal-footer justify-content-start">
+                                <button type="submit" id="guardar-cambios" class="btn btn-success">Guardar
+                                    cambios</button>
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
