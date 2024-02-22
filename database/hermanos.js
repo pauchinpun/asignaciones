@@ -32,15 +32,30 @@ async function getAllHermanos() {
 
 }
 
-// Function to insert data into the database
-function insertHermanoData(data) {
-    db.run('INSERT INTO hermano (Nombre, Hermano) VALUES (?, ?)', ['Puri', 'True'], (err) => {
-        if (err) return console.error(err.message);
+// CRUD
 
+// Create
+function insertHermanoData({ nombre, hermano, lectura, conversacion, revisita, curso, discurso }) {
+    db.run(`INSERT INTO hermano (Nombre, Hermano, Lectura, Conversacion, Revisita, Curso, Discurso) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?)`, [nombre, hermano, lectura, conversacion, revisita, curso, discurso], async (err) => {
+        if (err) err.message;
         console.log(`A row has been inserted with rowID: ${this.lastID}`);
     });
-
 }
 
-module.exports = { initHermanosDatabase, insertHermanoData, getAllHermanos }
+// Delete
+function deleteHermanoData(id) {
+    db.run(`DELETE FROM hermano WHERE id = ?`, [id], (err) => {
+        if (err) return console.error(err.message);
+        console.log(`A row with rowID: ${id} has been deleted`);
+    });
+}
+
+
+module.exports = {
+    initHermanosDatabase,
+    getAllHermanos,
+    insertHermanoData,
+    deleteHermanoData
+}
 

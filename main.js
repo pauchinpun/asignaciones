@@ -1,6 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('node:path');
-const { initHermanosDatabase, getAllHermanos, insertHermanoData } = require(path.join(__dirname, 'database/hermanos.js'));
+const { initHermanosDatabase, getAllHermanos, insertHermanoData, deleteHermanoData } = require(path.join(__dirname, 'database/hermanos.js'));
 
 let mainWin;
 
@@ -60,14 +60,6 @@ ipcMain.on('goTo', (event, page) => {
     openWindow(page);
 });
 
-ipcMain.handle('hermanosDB', async () => {
-    let hmnos = await getAllHermanos();
-    console.log('Seleccionando hermanos:', hmnos)
-    return hmnos;
-});
-
-
-ipcMain.handle('newHermano', async () => {
-    let hmnos = insertHermanoData();
-    return { 'state': true };
-});
+ipcMain.handle('getAllhermanosDB', async () => await getAllHermanos());
+ipcMain.handle('newHermano', async (event, data) => await insertHermanoData(data));
+ipcMain.handle('deleteHermano', async (event, id) => await deleteHermanoData(id));

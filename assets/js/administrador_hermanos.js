@@ -30,23 +30,15 @@ const formChecker = () => {
                     }, {});
 
                     try {
-                        let result = await electronAPI.newHermano(inputValues);
-                        if (result.state == true) {
-                            obtenerHermanosBD();
-                            let modal = document.querySelector('#header-table-modal')
-                            modalCreated.hide()
-                        }
+                        await electronAPI.newHermano(inputValues);
+                        obtenerHermanosBD();
+                        let modal = document.querySelector('#header-table-modal')
+                        modalCreated.hide()
                     } catch (error) {
                         alert(error)
                     }
-
                 }
-
             }
-
-
-
-
 
             form.classList.add('was-validated')
         }, false)
@@ -54,17 +46,25 @@ const formChecker = () => {
 };
 
 // Controlador general de clicks
-const clickController = (target) => {
+const clickController = async (target) => {
     if (target.closest('table')) tableClickController(target)
 
     if (target.id == 'add-hermano') {
         let modal = document.querySelector('#header-table-modal')
-        console.log("🚀 ~ clickController ~ modalCreated:", modalCreated)
         modalCreated = new bootstrap.Modal(modal, {})
-        console.log("🚀 ~ clickController ~ modalCreated:", modalCreated)
         modalCreated.show()
+    }
 
+    else if (target.id == 'delete-hermano') {
+        let mainCheck = document.querySelector('table > thead  input')
+        let allHermanosChecked = document.querySelectorAll('table > tbody > tr.active')
+        allHermanosChecked.forEach((async (hermano) => {
+            await electronAPI.deleteHermano(hermano.id)
+        }));
 
+        if (mainCheck.checked) mainCheck.checked = false
+        await obtenerHermanosBD();
+        checkIfShowDeleteButton()
     }
 }
 
@@ -91,7 +91,7 @@ const tableClickController = (target) => {
             document.querySelectorAll('.checkbox-row')
                 .forEach(elem => {
                     elem.checked = false
-                    elem.closest('.table-row').remove('active')
+                    elem.closest('.table-row').classList.remove('active')
                 })
         } else {
             document.querySelectorAll('.checkbox-row')
@@ -100,6 +100,8 @@ const tableClickController = (target) => {
                     elem.closest('.table-row').classList.add('active')
                 })
         }
+
+        checkIfShowDeleteButton();
     }
 
     // si se clica al btn de opciones
@@ -128,31 +130,31 @@ const checkIfShowDeleteButton = () => {
 // Obtener y mostrar todos los hermanos 
 const obtenerHermanosBD = async () => {
     try {
-        const hermanos = await electronAPI.hermanosDB();
+        const hermanos = await electronAPI.getAllhermanosDB();
         const htmlHermanos = hermanos.reduce((acc, hmno) => {
             acc += `<tr class="table-row" id="${hmno.Id}">
-                    <td><input type="checkbox" class="checkbox-row"></td>
-                    <td>${hmno.Nombre}</td>
-                    <td>${hmno.Hermano}</td>
-                    <td>${hmno.Lectura}</td>
-                    <td>${hmno.Conversacion}</td>
-                    <td>${hmno.Revisita}</td>
-                    <td>${hmno.Curso}</td>
-                    <td>${hmno.Discurso}</td>
-                    <td>
-                        <div class="options-parent">
-                            <button type="button" class="btn-options">
-                                <i class="fa-solid fa-ellipsis-vertical"></i>
-                            </button>
+                        <td><input type="checkbox" class="checkbox-row"></td>
+                        <td>${hmno.Nombre}</td>
+                        <td>${hmno.Hermano ? 'Si' : 'No'}</td>
+                        <td>${hmno.Lectura ? 'Si' : 'No'}</td>
+                        <td>${hmno.Conversacion ? 'Si' : 'No'}</td>
+                        <td>${hmno.Revisita ? 'Si' : 'No'}</td>
+                        <td>${hmno.Curso ? 'Si' : 'No'}</td>
+                        <td>${hmno.Discurso ? 'Si' : 'No'}</td>
+                        <td>
+                            <div class="options-parent">
+                                <button type="button" class="btn-options">
+                                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                                </button>
 
-                            <div class="options">
-                                <button type="button"><i class="fa-solid fa-pen"></i> Editar</button>
-                                <button type="button"><i class="fa-solid fa-trash"></i> Borrar</button>
+                                <div class="options">
+                                    <button type="button"><i class="fa-solid fa-pen"></i> Editar</button>
+                                    <button type="button"><i class="fa-solid fa-trash"></i> Borrar</button>
+                                </div>
                             </div>
-                        </div>
 
-                    </td>
-                </tr>`;
+                        </td>
+                    </tr>`;
 
             return acc;
         }, '');

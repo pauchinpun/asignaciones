@@ -5,6 +5,7 @@ const { contextBridge } = require('electron/renderer')
 // Exponer en JS del Cliente
 contextBridge.exposeInMainWorld('electronAPI', {
     goTo: (page) => ipcRenderer.send('goTo', page),
-    hermanosDB: async () => await ipcRenderer.invoke('hermanosDB'),
-    newHermano: (arg) => ipcRenderer.invoke('newHermano', arg)
+    getAllhermanosDB: async () => await ipcRenderer.invoke('getAllhermanosDB'),
+    newHermano: (data) => ipcRenderer.invoke('newHermano', data),
+    deleteHermano: (id) => ipcRenderer.invoke('deleteHermano', id)
 })
