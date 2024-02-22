@@ -1,5 +1,10 @@
 let modalCreated = null;
 
+document.querySelector('#header-table-modal').addEventListener('hidden.bs.modal', () => {
+    let modalForm = document.querySelector('#header-table-modal form')
+    modalForm.reset()
+    modalForm.classList.remove('was-validated')
+})
 
 document.addEventListener('DOMContentLoaded', () => {
     obtenerHermanosBD();
@@ -32,7 +37,6 @@ const formChecker = () => {
                     try {
                         await electronAPI.newHermano(inputValues);
                         obtenerHermanosBD();
-                        let modal = document.querySelector('#header-table-modal')
                         modalCreated.hide()
                     } catch (error) {
                         alert(error)
@@ -69,13 +73,17 @@ const clickController = async (target) => {
 }
 
 // Controlador de clicks de la tabla
-const tableClickController = (target) => {
+const tableClickController = async (target) => {
     const table_row = target.closest('tr');
     const isButtonOptionsClicked = target.classList.contains('btn-options');
     const checkboxClicked = target.classList.contains('checkbox-row')
     const mainCheckboxClicked = target.classList.contains('main-checkbox')
     const optionsShown = document.querySelectorAll('.options-parent>.options.show');
     const optionParent = target.closest('.options-parent')
+
+    // Btn options >> btn edit / delete
+    const btnEditSingleRow = target.classList.contains("btn-edit-single-row")
+    const btnDeleteSingleRow = target.classList.contains("btn-delete-single-row")
 
     if (checkboxClicked) {
         if (!target.checked) {
@@ -113,6 +121,12 @@ const tableClickController = (target) => {
         optionsShown.forEach(elem => elem.classList.remove('show'))
     }
 
+    if (btnDeleteSingleRow) {
+        let trActive = target.closest('tr');
+        await electronAPI.deleteHermano(trActive.id)
+        await obtenerHermanosBD();
+    }
+
 }
 
 const checkIfShowDeleteButton = () => {
@@ -148,8 +162,8 @@ const obtenerHermanosBD = async () => {
                                 </button>
 
                                 <div class="options">
-                                    <button type="button"><i class="fa-solid fa-pen"></i> Editar</button>
-                                    <button type="button"><i class="fa-solid fa-trash"></i> Borrar</button>
+                                    <button type="button" class="btn-edit-single-row"><i class="fa-solid fa-pen"></i> Editar</button>
+                                    <button type="button" class="btn-delete-single-row"><i class="fa-solid fa-trash"></i> Borrar</button>
                                 </div>
                             </div>
 
