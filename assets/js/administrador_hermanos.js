@@ -6,6 +6,8 @@ document.querySelector('#header-table-modal').addEventListener('hidden.bs.modal'
     modalForm.classList.remove('was-validated')
 })
 
+// ---------------------------------------------------
+
 document.addEventListener('DOMContentLoaded', () => {
     obtenerHermanosBD();
     document.addEventListener('click', e => clickController(e.target))
@@ -14,10 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 const formChecker = () => {
-
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
     const forms = document.querySelectorAll('.needs-validation')
-    console.log("🚀 ~ formChecker ~ forms:", forms)
 
     // Loop over them and prevent submission
     Array.from(forms).forEach(form => {
@@ -51,15 +51,18 @@ const formChecker = () => {
 
 // Controlador general de clicks
 const clickController = async (target) => {
+
+    // Si se clica a algo de la tabla
     if (target.closest('table')) tableClickController(target)
 
+
+    // Si se clica a Añadir hermano
     if (target.id == 'add-hermano') {
-        let modal = document.querySelector('#header-table-modal')
-        modalCreated = new bootstrap.Modal(modal, {})
-        modalCreated.show()
+
     }
 
-    else if (target.id == 'delete-hermano') {
+    // Si se clica a Borrar hermano
+    if (target.id == 'delete-hermano') {
         let mainCheck = document.querySelector('table > thead  input')
         let allHermanosChecked = document.querySelectorAll('table > tbody > tr.active')
         allHermanosChecked.forEach((async (hermano) => {
@@ -130,16 +133,20 @@ const tableClickController = async (target) => {
 }
 
 const checkIfShowDeleteButton = () => {
-    let activeTR = document.querySelector('table > tbody > tr.active');
-    let toolbarButtons = document.querySelector('#toolbar .buttons');
+    const activeTR = document.querySelector('table > tbody > tr.active');
+    const toolbarButtons = document.querySelector('#toolbar .buttons');
+    const btnDanger = toolbarButtons.querySelector('.btn-danger');
+    const btnPrimary = toolbarButtons.querySelector('.btn-primary');
+
     if (activeTR) {
-        toolbarButtons.querySelector('.btn-danger').classList.remove('d-none')
-        toolbarButtons.querySelector('.btn-primary').classList.add('d-none')
+        btnDanger.classList.remove('d-none');
+        btnPrimary.classList.add('d-none');
     } else {
-        toolbarButtons.querySelector('.btn-danger').classList.add('d-none')
-        toolbarButtons.querySelector('.btn-primary').classList.remove('d-none')
+        btnDanger.classList.add('d-none');
+        btnPrimary.classList.remove('d-none');
     }
-}
+};
+
 
 // Obtener y mostrar todos los hermanos 
 const obtenerHermanosBD = async () => {
@@ -179,8 +186,11 @@ const obtenerHermanosBD = async () => {
     }
 }
 
-
-
+const openModal = () => {
+    let modal = document.querySelector('#header-table-modal')
+    modalCreated = new bootstrap.Modal(modal, {})
+    modalCreated.show()
+}
 
 
 
